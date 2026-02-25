@@ -1,0 +1,27 @@
+name: kyrgyz_tili_web_site
+description: "KyrgyzTili Learn & Play website"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  flutter_markdown: ^0.7.7+1
+  go_router: ^16.2.1
+  google_fonts: ^6.3.2
+  url_launcher: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/site_images/
