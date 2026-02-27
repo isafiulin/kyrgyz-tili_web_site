@@ -227,16 +227,18 @@ class _SitePageState extends State<SitePage> {
                                   icon: const Icon(Icons.mail_outline),
                                   label: Text(content.contactEmail),
                                 ),
-                                TextButton.icon(
-                                  onPressed: widget.controller.openTelegram,
-                                  icon: const Icon(Icons.telegram),
-                                  label: Text(content.contactTelegram),
-                                ),
-                                TextButton.icon(
-                                  onPressed: widget.controller.openInstagram,
-                                  icon: const Icon(Icons.camera_alt_outlined),
-                                  label: Text(content.contactInstagram),
-                                ),
+                                //TODO in Future add telegram and instagram buttons
+                                
+                                // TextButton.icon(
+                                //   onPressed: widget.controller.openTelegram,
+                                //   icon: const Icon(Icons.telegram),
+                                //   label: Text(content.contactTelegram),
+                                // ),
+                                // TextButton.icon(
+                                //   onPressed: widget.controller.openInstagram,
+                                //   icon: const Icon(Icons.camera_alt_outlined),
+                                //   label: Text(content.contactInstagram),
+                                // ),
                               ],
                             ),
                           ];
@@ -273,9 +275,15 @@ class _SitePageState extends State<SitePage> {
                         body: '',
                         actions: [
                           FilledButton.tonal(
-                            onPressed: () => context.go(
-                              '/privacy?lang=${SiteController.localeQueryValue(widget.controller.locale)}',
-                            ),
+                            onPressed: () async {
+                              await widget.controller.logNavigate('privacy');
+                              if (!context.mounted) {
+                                return;
+                              }
+                              context.go(
+                                '/privacy?lang=${SiteController.localeQueryValue(widget.controller.locale)}',
+                              );
+                            },
                             child: Text(content.openLegalPageLabel),
                           ),
                         ],
@@ -286,9 +294,15 @@ class _SitePageState extends State<SitePage> {
                         body: '',
                         actions: [
                           FilledButton.tonal(
-                            onPressed: () => context.go(
-                              '/terms?lang=${SiteController.localeQueryValue(widget.controller.locale)}',
-                            ),
+                            onPressed: () async {
+                              await widget.controller.logNavigate('terms');
+                              if (!context.mounted) {
+                                return;
+                              }
+                              context.go(
+                                '/terms?lang=${SiteController.localeQueryValue(widget.controller.locale)}',
+                              );
+                            },
                             child: Text(content.openLegalPageLabel),
                           ),
                         ],

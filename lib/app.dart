@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:kyrgyz_tili_web_site/core/analytics/app_analytics.dart';
 import 'package:kyrgyz_tili_web_site/core/theme/app_theme.dart';
 import 'package:kyrgyz_tili_web_site/features/site/data/repositories/local_site_content_repository.dart';
 import 'package:kyrgyz_tili_web_site/features/site/domain/usecases/get_site_content.dart';
@@ -15,14 +19,20 @@ class KyrgyzTiliWebApp extends StatefulWidget {
 }
 
 class _KyrgyzTiliWebAppState extends State<KyrgyzTiliWebApp> {
+  late final FirebaseAnalytics _firebaseAnalytics;
   late final SiteController _controller;
   late final GoRouter _router;
 
   @override
   void initState() {
     super.initState();
+    _firebaseAnalytics = FirebaseAnalytics.instance;
+
     final repository = LocalSiteContentRepository();
-    _controller = SiteController(getSiteContent: GetSiteContent(repository));
+    _controller = SiteController(
+      getSiteContent: GetSiteContent(repository),
+      analytics: AppAnalytics(_firebaseAnalytics),
+    );
     _router = _buildRouter();
   }
 
@@ -38,6 +48,7 @@ class _KyrgyzTiliWebAppState extends State<KyrgyzTiliWebApp> {
             if (locale != null) {
               _controller.setLocale(locale);
             }
+            unawaited(_controller.logPageView('/', _controller.locale));
             return SitePage(controller: _controller);
           },
         ),
@@ -48,6 +59,7 @@ class _KyrgyzTiliWebAppState extends State<KyrgyzTiliWebApp> {
                   state.uri.queryParameters['lang'],
                 ) ??
                 _controller.locale;
+            unawaited(_controller.logPageView('/privacy', locale));
             return LegalPage(
               controller: _controller,
               locale: locale,
@@ -62,6 +74,7 @@ class _KyrgyzTiliWebAppState extends State<KyrgyzTiliWebApp> {
                   state.uri.queryParameters['lang'],
                 ) ??
                 _controller.locale;
+            unawaited(_controller.logPageView('/terms', locale));
             return LegalPage(
               controller: _controller,
               locale: locale,
