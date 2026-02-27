@@ -35,6 +35,8 @@ migrate_working_dir/
 /assets/google618ce2d27317a0a2.html
 web/google618ce2d27317a0a2.html
 web/app-ads.txt
+firebase.json
+lib/firebase_options.dart
 
 # Symbolication related
 app.*.symbols
